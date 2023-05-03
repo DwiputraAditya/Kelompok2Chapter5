@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,7 +16,7 @@ public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate premieredDate;
     @JsonFormat(pattern = "HH:mm")
     private LocalTime startHour;
@@ -25,6 +26,9 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "film_code")
-    @JsonIgnore
     private Film film;
+
+    @OneToMany(mappedBy = "schedule")
+    @JsonIgnore
+    private List<Invoice> invoice;
 }

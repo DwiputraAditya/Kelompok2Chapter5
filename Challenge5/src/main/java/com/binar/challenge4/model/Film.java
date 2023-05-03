@@ -20,4 +20,8 @@ public class Film {
     @OneToMany(mappedBy = "film")
     @JsonIgnore
     private List<Schedule> schedule = new ArrayList<>();
+
+    @OneToMany(mappedBy = "film")
+    @JsonIgnore
+    private List<Invoice> invoice;
 }

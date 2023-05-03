@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +17,12 @@ import java.util.Optional;
 public class FilmService {
     @Autowired
     private FilmRepository filmRepository;
+
     public Film addFilm(Film film) {
         log.info("Add Data Film Success");
         return filmRepository.save(film);
     }
+
     public List<Film> getAllFilm(){
         log.info("Get All Data Film Success");
         return filmRepository.findAll();
