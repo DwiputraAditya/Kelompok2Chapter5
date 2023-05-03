@@ -10,4 +10,6 @@ import java.util.List;
 public interface SeatRepository extends JpaRepository<Seat, Long> {
 
     List<Seat> findAllBySeatIdAndAndIsAvailable(Long seatId, Boolean isAvailable);
+
+    Seat findSeatsBySeatNumber(Long seatNumber);
 }

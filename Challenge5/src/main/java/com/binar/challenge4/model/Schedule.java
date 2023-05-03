@@ -1,7 +1,6 @@
 package com.binar.challenge4.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,6 +15,11 @@ public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
+
+    @ManyToOne
+    @JoinColumn(name = "film_code")
+    @JsonIgnore
+    private Film film;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate premieredDate;
     @JsonFormat(pattern = "HH:mm")
@@ -24,10 +28,6 @@ public class Schedule {
     private LocalTime endHour;
     private BigDecimal price;
 
-    @ManyToOne
-    @JoinColumn(name = "film_code")
-    @JsonIgnore
-    private Film film;
 
     @OneToMany(mappedBy = "schedule")
     @JsonIgnore

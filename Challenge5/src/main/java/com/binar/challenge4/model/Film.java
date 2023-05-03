@@ -18,7 +18,8 @@ public class Film {
     private String filmName;
     private Boolean isPremiered;
 
-    @OneToMany(mappedBy = "film")
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
+    @JsonManagedReference
     @JsonIgnore
     private List<Schedule> schedule = new ArrayList<>();
 

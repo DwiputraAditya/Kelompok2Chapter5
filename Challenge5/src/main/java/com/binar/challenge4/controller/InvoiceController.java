@@ -12,10 +12,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -46,6 +43,12 @@ public class InvoiceController {
         response.setHeader("Content-disposition", "attachment; filename=\"invoice.pdf\"");
         JasperPrint jasperPrint = invoiceService.generateInvoice(invoiceId);
         JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+    }
+
+    @PostMapping
+    public ResponseEntity<Invoice> addDataForBooking(@RequestParam(name = "film_code") Long filmCode, @RequestParam(name = "schedule_id") Long scheduleId, @RequestParam(name = "seat_number") Long seatNumber) throws Exception {
+        Invoice addDataForBooking = invoiceService.addDataForBooking(filmCode, scheduleId, seatNumber);
+        return new ResponseEntity<>(addDataForBooking, HttpStatus.CREATED);
     }
 
 
