@@ -40,11 +40,11 @@ public class InvoiceService {
         }
     }
 
-    public JasperPrint generateInvoice(String parameter) throws Exception{
-        InputStream fileReport = new ClassPathResource("report/Film.jasper").getInputStream();
+    public JasperPrint generateInvoice(Long parameter) throws Exception{
+        InputStream fileReport = new ClassPathResource("report/invoice.jasper").getInputStream();
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(fileReport);
         Map<String, Object> params = new HashMap<>();
-        params.put("filmName", "%"+parameter+"%");
+        params.put("invoiceId", parameter);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, getConnection());
         return jasperPrint;
     }

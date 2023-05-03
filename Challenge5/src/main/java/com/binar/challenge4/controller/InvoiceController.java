@@ -33,6 +33,7 @@ public class InvoiceController {
     @Autowired
     private HttpServletResponse response;
 
+
     @GetMapping("/getAllInvoice")
     public ResponseEntity<List<Invoice>> getAllInvoice() {
         List<Invoice> allInvoice = invoiceService.getAllInvoice();
@@ -40,12 +41,13 @@ public class InvoiceController {
     }
 
     @GetMapping("/generateInvoice")
-    public void getInvoiceReport(String filmName) throws Exception{
+    public void getInvoiceReport(Long invoiceId) throws Exception{
         response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", "attachment; filename=\"film.pdf\"");
-        JasperPrint jasperPrint = invoiceService.generateInvoice(filmName);
+        response.setHeader("Content-disposition", "attachment; filename=\"invoice.pdf\"");
+        JasperPrint jasperPrint = invoiceService.generateInvoice(invoiceId);
         JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
     }
+
 
     /*public InvoiceController(SeatService seatService, InvoiceService invoiceService) {
         this.seatService = seatService;

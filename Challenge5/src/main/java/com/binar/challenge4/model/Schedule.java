@@ -26,6 +26,7 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "film_code")
+    @JsonIgnore
     private Film film;
 
     @OneToMany(mappedBy = "schedule")
