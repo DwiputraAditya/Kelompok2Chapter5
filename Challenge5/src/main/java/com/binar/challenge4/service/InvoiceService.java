@@ -1,7 +1,13 @@
 package com.binar.challenge4.service;
 
+import com.binar.challenge4.model.Film;
 import com.binar.challenge4.model.Invoice;
+import com.binar.challenge4.model.Schedule;
+import com.binar.challenge4.model.Seat;
+import com.binar.challenge4.repository.FilmRepository;
 import com.binar.challenge4.repository.InvoiceRepository;
+import com.binar.challenge4.repository.ScheduleRepository;
+import com.binar.challenge4.repository.SeatRepository;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -26,6 +32,12 @@ public class InvoiceService {
     private DataSource dataSource;
     @Autowired
     private InvoiceRepository invoiceRepository;
+    @Autowired
+    private FilmRepository filmRepository;
+    @Autowired
+    private ScheduleRepository scheduleRepository;
+    @Autowired
+    private SeatRepository seatRepository;
 
     public List<Invoice> getAllInvoice() {
         return invoiceRepository.findAll();
@@ -47,6 +59,19 @@ public class InvoiceService {
         params.put("invoiceId", parameter);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, getConnection());
         return jasperPrint;
+    }
+
+    public Invoice addDataForBooking(Long filmCode, Long scheduleId, Long seatId) throws Exception {
+        Film film = filmRepository.findById(filmCode).orElseThrow(() -> new Exception("Film Code Tidak Ada"));
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new Exception("Film Code Tidak Ada"));
+        Seat seat = seatRepository.findById(seatId).orElseThrow(() -> new Exception("Seat Id Tidak Ada"));
+
+        Invoice invoice = new Invoice();
+        invoice.setFilm(film);
+        invoice.setSchedule(schedule);
+        invoice.setSeats(seat);
+
+        return invoiceRepository.save(invoice);
     }
 
     /*public InvoiceService(InvoiceRepository invoiceRepository) {
