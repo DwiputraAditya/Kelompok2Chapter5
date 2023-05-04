@@ -23,7 +23,7 @@ public class SeatController {
     }
 
     @PostMapping("/addSeat")
-    public ResponseEntity<Seat> addSeat(@RequestParam(name = "seat_number") String seatNumber, @RequestParam(name = "is_available") boolean isAvailable, @RequestParam(name = "studio") String studioName){
+    public ResponseEntity<Seat> addSeat(@RequestParam(name = "seat_number") String seatNumber, @RequestParam(name = "is_available") boolean isAvailable, @RequestParam(name = "studio") String studioName) throws Exception{
         Seat addSeat = seatService.addSeats(seatNumber, isAvailable, studioName);
         return new ResponseEntity<>(addSeat, HttpStatus.CREATED);
     }

@@ -38,7 +38,11 @@ public class InvoiceController {
 
     @PostMapping("/addBooking")
     public ResponseEntity<Invoice> addDataForBooking(@RequestParam(name = "film_code") Long filmCode, @RequestParam(name = "schedule_id") Long scheduleId, @RequestParam(name = "seat_id") Long seatId) throws Exception {
-        Invoice addDataForBooking = invoiceService.addDataForBooking(filmCode, scheduleId, seatId);
-        return new ResponseEntity<>(addDataForBooking, HttpStatus.CREATED);
+        try {
+            Invoice addDataForBooking = invoiceService.addDataForBooking(filmCode, scheduleId, seatId);
+            return new ResponseEntity<>(addDataForBooking, HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 }

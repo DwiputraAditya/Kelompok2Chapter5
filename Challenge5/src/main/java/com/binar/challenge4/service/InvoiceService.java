@@ -59,8 +59,15 @@ public class InvoiceService {
 
     public Invoice addDataForBooking(Long filmCode, Long scheduleId, Long seatId) throws Exception {
         Film film = filmRepository.findById(filmCode).orElseThrow(() -> new Exception("Film Code Tidak Ada"));
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new Exception("Film Code Tidak Ada"));
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new Exception("Schedule Tidak Ada"));
         Seat seat = seatRepository.findById(seatId).orElseThrow(() -> new Exception("Seat Id Tidak Ada"));
+
+        List<Invoice> invoices = invoiceRepository.findByFilmAndSchedule(film, schedule);
+        for(Invoice i : invoices){
+            if(i.getSeats().equals(seat)){
+                throw new Exception("Seat has already been booked.");
+            }
+        }
 
         Invoice invoice = new Invoice();
         invoice.setFilm(film);
