@@ -29,7 +29,11 @@ public class SeatService {
         return (Seat) allByStudiosIdAndIsAvailable;
     }
 
-    public Seat addSeats(Long seatNumber, boolean isAvailable, String studioName){
+    public Seat addSeats(Long seatNumber, boolean isAvailable, String studioName) throws Exception {
+        Seat seats = seatRepository.findSeatsBySeatNumberAndStudio(seatNumber, studioName);
+        if(seats != null){
+            throw new Exception("Seats already exist");
+        }
         Seat seat = new Seat();
         seat.setSeatNumber(seatNumber);
         seat.setIsAvailable(isAvailable);

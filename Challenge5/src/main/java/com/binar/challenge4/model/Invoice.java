@@ -17,11 +17,6 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long invoiceId;
 
-    /*@ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    private User user;*/
-
     @ManyToOne
     @JoinColumn(name = "film_code")
     private Film film;

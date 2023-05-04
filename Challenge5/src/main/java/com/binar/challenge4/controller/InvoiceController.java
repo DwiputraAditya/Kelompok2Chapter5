@@ -9,6 +9,7 @@ import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import org.apache.commons.collections.functors.ExceptionPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,9 +47,15 @@ public class InvoiceController {
     }
 
     @PostMapping
-    public ResponseEntity<Invoice> addDataForBooking(@RequestParam(name = "film_code") Long filmCode, @RequestParam(name = "schedule_id") Long scheduleId, @RequestParam(name = "seat_number") Long seatNumber) throws Exception {
-        Invoice addDataForBooking = invoiceService.addDataForBooking(filmCode, scheduleId, seatNumber);
-        return new ResponseEntity<>(addDataForBooking, HttpStatus.CREATED);
+    public ResponseEntity<Invoice> addDataForBooking(@RequestParam(name = "film_code") Long filmCode, @RequestParam(name = "schedule_id") Long scheduleId, @RequestParam(name = "seat_id") Long seatId) throws Exception {
+        try {
+            Invoice addDataForBooking = invoiceService.addDataForBooking(filmCode, scheduleId, seatId);
+            return new ResponseEntity<>(addDataForBooking, HttpStatus.CREATED);
+
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+        }
     }
 
 

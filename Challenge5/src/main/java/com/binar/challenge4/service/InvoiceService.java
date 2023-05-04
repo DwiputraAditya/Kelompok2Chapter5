@@ -16,6 +16,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.sql.*;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -58,10 +59,17 @@ public class InvoiceService {
         return jasperPrint;
     }
 
-    public Invoice addDataForBooking(Long filmCode, Long scheduleId, Long seatNumber) throws Exception {
+    public Invoice addDataForBooking(Long filmCode, Long scheduleId, Long seatId) throws Exception {
         Film film = filmRepository.findById(filmCode).orElseThrow(() -> new Exception("Film Code Tidak Ada"));
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new Exception("Film Code Tidak Ada"));
-        Seat seat = seatRepository.findSeatsBySeatNumber(seatNumber);
+        Seat seat = seatRepository.findSeatsBySeatNumber(seatId);
+
+        List<Invoice> invoices = invoiceRepository.findByFilmAndSchedule(film, schedule);
+        for(Invoice i : invoices){
+            if(i.getSeats().equals(seat)){
+                throw new Exception("Seat has already been booked.");
+            }
+        }
 
         Invoice invoice = new Invoice();
         invoice.setFilm(film);
