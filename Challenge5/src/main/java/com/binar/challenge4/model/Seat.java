@@ -13,7 +13,7 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seatId;
-    private Long seatNumber;
+    private String seatNumber;
     private Boolean isAvailable;
     private String studio;
 
