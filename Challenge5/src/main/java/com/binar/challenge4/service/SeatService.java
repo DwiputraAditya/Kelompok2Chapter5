@@ -21,13 +21,6 @@ public class SeatService {
 
     }
 
-    public Seat getAllSeatAvailable(Long scheduleId, Boolean avail) {
-        Schedule scheduleById = scheduleRepository.findScheduleByScheduleId(scheduleId);
-        Long id = scheduleById.getScheduleId();
-        List<Seat> allByStudiosIdAndIsAvailable = seatRepository.findAllBySeatIdAndAndIsAvailable(id, true);
-        return (Seat) allByStudiosIdAndIsAvailable;
-    }
-
     public Seat addSeats(String seatNumber, boolean isAvailable, String studioName){
         Seat seat = new Seat();
         seat.setSeatNumber(seatNumber);
